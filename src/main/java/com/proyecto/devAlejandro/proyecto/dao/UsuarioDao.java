@@ -14,4 +14,9 @@ public interface UsuarioDao {
     List<Usuario> getUsuario();
 
     void eliminarUsuario(Long id);
+
+    void registrar(Usuario usuario);
+
+
+    boolean verificarCredenciales(Usuario usuario);
 }

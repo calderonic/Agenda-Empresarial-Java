@@ -17,7 +17,7 @@ public class UsuarioDaoImp implements  UsuarioDao{
 
 
     @Override
-    @Transactional
+    @Transactional  //configuracion llamado "modo de propagacion"
     public List<Usuario> getUsuario() {
          String query = "FROM Usuario"; //trabaja sobre hibernate,datos de la clase.
        // List<Usuario> resultado = entityManager.createQuery(query).getResultList();
@@ -30,4 +30,22 @@ public class UsuarioDaoImp implements  UsuarioDao{
         Usuario usuario = entityManager.find(Usuario.class, id);
         entityManager.remove(usuario);
     }
+
+    @Override
+    public void registrar(Usuario usuario) {
+        entityManager.merge(usuario);
+    }
+
+    @Override
+    public boolean verificarCredenciales(Usuario usuario) {
+        String query = "FROM Usuario WHERE email = :email AND password = :password";//trabaja sobre hibernate,datos de la clase.
+        List<Usuario> listaDB = entityManager.createQuery(query)
+            .setParameter("email",usuario.getEmail())
+                .setParameter("password", usuario.getPassword())
+                .getResultList();
+
+
+        return !listaDB.isEmpty();
+    }
+
 }

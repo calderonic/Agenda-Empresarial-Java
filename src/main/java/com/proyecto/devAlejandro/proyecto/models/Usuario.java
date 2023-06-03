@@ -1,20 +1,18 @@
 package com.proyecto.devAlejandro.proyecto.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity @ToString @EqualsAndHashCode
+@Entity          @ToString @EqualsAndHashCode
 @Table(name ="usuarios")
 public class Usuario {
 
+    @GeneratedValue(strategy=GenerationType.IDENTITY) //
     @Id //indica la llave primaria
-    @Getter @Setter @Column(name ="id") // Para referencia con las columna de Base de Datos
+    @Getter @Setter @Column(name ="id") // Hace referencia con las columna en la Database
     private Long id;
 
     @Getter @Setter @Column(name = "nombre")
