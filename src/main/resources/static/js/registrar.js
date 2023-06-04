@@ -32,7 +32,8 @@ $(document).ready(function() {
         body: JSON.stringify(datos)
       });
      // const usuarios = await request.json();
-
+    alert("Usted acaba de hacer su cuenta con exito!");
+    window.location.href = 'login.html';
  }
 
 
