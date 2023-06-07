@@ -58,10 +58,8 @@ public class UsuarioController {
     public void registrarUsuario(@RequestBody Usuario usuario)  { //estaria convirtiendo el json que recibe a un usuario automaticamente
 
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-        String hashe = argon2.hash(1, 1024, 1,usuario.getPassword());
-        usuario.setPassword(hashe);
-
-
+        String hash = argon2.hash(1, 1024, 1,usuario.getPassword());
+        usuario.setPassword(hash);
 
 
 

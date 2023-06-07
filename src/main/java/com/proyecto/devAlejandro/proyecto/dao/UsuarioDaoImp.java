@@ -47,7 +47,7 @@ public class UsuarioDaoImp implements  UsuarioDao{
   //             .getResultList();
 
         String query = "FROM Usuario WHERE email = :email";//trabaja sobre hibernate,datos de la clase.
-        List<Usuario> listaDB = entityManager.createQuery(query)
+        List <Usuario> listaDB = entityManager.createQuery(query)
                 .setParameter("email",usuario.getEmail())
                 .getResultList();
 
@@ -56,12 +56,10 @@ public class UsuarioDaoImp implements  UsuarioDao{
         }
 
 
-
         String passwordHashed = listaDB.get(0).getPassword();
 
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-
-        return argon2.verify(passwordHashed, usuario.getPassword()  ) ;
+        return argon2.verify(passwordHashed, usuario.getPassword()) ;
     }
 
 }
