@@ -2,6 +2,7 @@ package com.proyecto.devAlejandro.proyecto.controllers;
 
 import com.proyecto.devAlejandro.proyecto.dao.UsuarioDao;
 import com.proyecto.devAlejandro.proyecto.models.Usuario;
+import com.proyecto.devAlejandro.proyecto.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioDao usuarioDao;
 
+    @Autowired
+    private JWTUtil jwtUtil;
     @RequestMapping (value = "api/usuario/{id}", method = RequestMethod.GET)
     public Usuario getUsuario(@PathVariable Long id) {
         Usuario usuario = new Usuario();
@@ -28,8 +31,15 @@ public class UsuarioController {
     }
 
     @RequestMapping (value = "api/usuarios", method = RequestMethod.GET)
-    public List<Usuario> getUsuarios() {
+    public List<Usuario> getUsuarios(@RequestHeader(value= "Authorization")String token) {
 
+       // String usuarioId = jwtUtil.getKey(token);
+       // if (usuarioId == null) {
+        //    return new ArrayList<>();
+      //  }
+        if (!validadToken(token)) {
+             return null;
+        }
         return usuarioDao.getUsuario();
 
 
@@ -54,6 +64,12 @@ public class UsuarioController {
 
         //return usuarios;
     }
+
+    private boolean validadToken(String token) {
+        String usuarioId = jwtUtil.getKey(token);
+        return usuarioId != null;
+    }
+
     @RequestMapping (value = "api/usuarios", method = RequestMethod.POST)
     public void registrarUsuario(@RequestBody Usuario usuario)  { //estaria convirtiendo el json que recibe a un usuario automaticamente
 
@@ -76,8 +92,8 @@ public class UsuarioController {
         return usuario;
     }
     @RequestMapping (value = "api/usuarios/{id}", method = RequestMethod.DELETE)
-    public void eliminar(@PathVariable Long id) {
-
+    public void eliminar(@RequestHeader(value= "Authorization")String token, @PathVariable Long id) {
+       if (!validadToken(token)){return;}
        usuarioDao.eliminarUsuario(id);
     }
     @RequestMapping (value = "usuario4")

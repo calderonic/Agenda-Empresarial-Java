@@ -30,5 +30,5 @@ public class Usuario {
     @Getter @Setter @Column(name = "password")
     private String password;
 
-
+    // arma una calculadora
 }

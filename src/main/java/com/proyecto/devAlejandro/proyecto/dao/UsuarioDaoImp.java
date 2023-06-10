@@ -26,7 +26,6 @@ public class UsuarioDaoImp implements  UsuarioDao{
        // return resultado;
         return entityManager.createQuery(query).getResultList();
     }
-
     @Override
     public void eliminarUsuario(Long id) {
         Usuario usuario = entityManager.find(Usuario.class, id);
@@ -39,7 +38,7 @@ public class UsuarioDaoImp implements  UsuarioDao{
     }
 
     @Override
-    public boolean verificarCredenciales(Usuario usuario) {
+    public Usuario obtenerUsuarioPorCredenciales(Usuario usuario) {
   //     String query = "FROM Usuario WHERE email = :email AND password = :password";//trabaja sobre hibernate,datos de la clase.
   //     List<Usuario> listaDB = entityManager.createQuery(query)
   //         .setParameter("email",usuario.getEmail())
@@ -52,14 +51,20 @@ public class UsuarioDaoImp implements  UsuarioDao{
                 .getResultList();
 
         if(listaDB.isEmpty()) {
-            return false;
+            return null;
         }
-
 
         String passwordHashed = listaDB.get(0).getPassword();
 
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-        return argon2.verify(passwordHashed, usuario.getPassword()) ;
+        if (argon2.verify(passwordHashed, usuario.getPassword())) {
+            return listaDB.get(0);
+        }
+        return null;
     }
 
 }
+//COMO MOVERSE EN vim
+// we    jk
+// i para el comienzo de la letra, a"" para el despues, shift + a para el final de l linea
+// eliminar texto , x guardar :wq :w

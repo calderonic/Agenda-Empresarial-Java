@@ -11,11 +11,11 @@ $(document).ready(function() {
 // para hcer un llamado al servido, se hace un fetch
       const request = await fetch ('api/usuarios', {
         method: 'GET',
-        headers: {
+        headers: getHeaders()
         // VAMOS A ESTAR UTILIZANDO JSON // EL CONTENDO VA A SER JSON
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
+         // 'Accept': 'application/json',
+         // 'Content-Type': 'application/json'
+
 
         //UTILIZADO EN METHOD POST, por ej creamos un nuevo usuario, los modificamos
         //body: JSON.stringify({a: 1, b: 'Textual content'})
@@ -42,9 +42,14 @@ $(document).ready(function() {
 
  }
 
+    function getHeaders() {
+        return{
+'Accept': 'application/json',
+           'Content-Type': 'application/json'
+           'Authorization': localStorage.token
+    };
 
-
-
+}
 
 
  async function eliminarUsuario(id) {
@@ -56,11 +61,13 @@ $(document).ready(function() {
 // para hcer un llamado al servido, se hace un fetch
       const request = await fetch ('api/usuarios/' + id, {
         method: 'DELETE',
-        headers: {
-        // VAMOS A ESTAR UTILIZANDO JSON // EL CONTENDO VA A SER JSON
-           'Accept': 'application/json',
-           'Content-Type': 'application/json'
-        }
+        headers: getHeaders()
+      //  {
+      //  // VAMOS A ESTAR UTILIZANDO JSON // EL CONTENDO VA A SER JSON
+      //     'Accept': 'application/json',
+      //     'Content-Type': 'application/json'
+
+      //  }
 
                                                                          //UTILIZADO EN METHOD POST, por ej creamos un nuevo usuario, los modificamos
                                                                                  //body: JSON.stringify({a: 1, b: 'Textual content'})
